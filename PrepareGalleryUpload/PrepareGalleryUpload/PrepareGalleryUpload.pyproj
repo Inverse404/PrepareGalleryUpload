@@ -11,6 +11,9 @@
     <OutputPath>.</OutputPath>
     <Name>PrepareGalleryUpload</Name>
     <RootNamespace>PrepareGalleryUpload</RootNamespace>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <CommandLineArguments>"F:\_temp\rexx\source folders\2018-0213"</CommandLineArguments>
+    <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
