@@ -2,6 +2,8 @@ import subprocess
 import argparse
 import os
 import json
+import string
+import random
 
 #CONFIGURE your default directories here
 default_output_base_directory = "f:\\_temp\\rexx\\gallery upload"
@@ -34,25 +36,14 @@ uploaded_gallery_url = default_uploaded_base_url + source_dir_name + "/"
 if os.path.exists( output_directory ) == False:
 	os.makedirs( output_directory )
 
-#create envira gallery import file
-envira_gallery = {}
-#WARNING: the actual implication of this gallery ID on import in undocumented
-# check if this overwrites galleries before production use
-envira_gallery["id"] = 9045
-envira_gallery["gallery"] = {}
-envira_gallery["config"] = {}
-envira_gallery["in_gallery"] = []
-
-gallery_entry_id = 0
 for dir_entry in os.scandir( source_dir_path ):
 	entry_name, entry_extension = os.path.splitext( dir_entry.name )
 
 	if entry_extension.lower() == ".mp4":
 		#we have a video file, so let's go and call the usual external tools to process it
-		gallery_entry_id += 1
-		gallery_entry_id_str = str(gallery_entry_id)
 
-		output_file_name = entry_name.replace( "-UHD", "-HQ" )
+		random_name_bit = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
+		output_file_name = entry_name.replace( "-UHD", "-HQ" ) + "-" + random_name_bit
 		#create a HQ web video file
 		subprocess.run( [	ffmpeg_path,
 							"-i",
@@ -76,29 +67,3 @@ for dir_entry in os.scandir( source_dir_path ):
 		uploaded_video_url = uploaded_gallery_url + output_file_name + ".mp4"
 		uploaded_thumb_url = uploaded_gallery_url + output_file_name + ".jpg"
 
-		#create an entry in the envira gallery import json file
-		envira_gallery["gallery"][gallery_entry_id_str]={}
-		envira_gallery["gallery"][gallery_entry_id_str]["status"] = "active"
-		envira_gallery["gallery"][gallery_entry_id_str]["src"] = ""
-		envira_gallery["gallery"][gallery_entry_id_str]["title"] = output_file_name
-		envira_gallery["gallery"][gallery_entry_id_str]["link"] = uploaded_video_url
-		envira_gallery["gallery"][gallery_entry_id_str]["alt"] = ""
-		envira_gallery["gallery"][gallery_entry_id_str]["caption"] = ""
-		envira_gallery["gallery"][gallery_entry_id_str]["thumb"] = uploaded_thumb_url
-		envira_gallery["gallery"][gallery_entry_id_str]["tags"] = []
-		envira_gallery["gallery"][gallery_entry_id_str]["schedule_meta"] = 0
-		envira_gallery["gallery"][gallery_entry_id_str]["schedule_meta_start"] = ""
-		envira_gallery["gallery"][gallery_entry_id_str]["schedule_meta_end"] = ""
-		envira_gallery["gallery"][gallery_entry_id_str]["schedule_meta_ignore_date"] = 0
-		envira_gallery["gallery"][gallery_entry_id_str]["schedule_meta_ignore_year"] = 0
-		envira_gallery["gallery"][gallery_entry_id_str]["video_aspect_ratio"] = ""
-		envira_gallery["gallery"][gallery_entry_id_str]["video_width"] = ""
-		envira_gallery["gallery"][gallery_entry_id_str]["video_height"] = ""
-		envira_gallery["gallery"][gallery_entry_id_str]["video_in_gallery"] = ""
-
-		envira_gallery["in_gallery"].append( gallery_entry_id )
-
-envira_gallery_import_file_path = os.path.join(default_output_base_directory, source_dir_name + ".json")
-envira_gallery_import_file = open( envira_gallery_import_file_path, 'w+' )
-json.dump( envira_gallery, envira_gallery_import_file )
-envira_gallery_import_file.close()
