@@ -12,7 +12,7 @@
     <Name>PrepareGalleryUpload</Name>
     <RootNamespace>PrepareGalleryUpload</RootNamespace>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>"F:\_temp\rexx\source folders\2018-0213"</CommandLineArguments>
+    <CommandLineArguments>"F:\_temp\rexx\source folders\2018-0213\2018-0213AmaniLenorahQuickie01-30-ST-UHD.mp4"</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
