@@ -7,13 +7,14 @@
     <StartupFile>PrepareGalleryUpload.py</StartupFile>
     <SearchPath>
     </SearchPath>
-    <WorkingDirectory>.</WorkingDirectory>
+    <WorkingDirectory>F:\_temp\rexx\workdir</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <Name>PrepareGalleryUpload</Name>
     <RootNamespace>PrepareGalleryUpload</RootNamespace>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>"F:\_temp\rexx\source folders\2018-0213\2018-0213AmaniLenorahQuickie01-30-ST-UHD.mp4"</CommandLineArguments>
+    <CommandLineArguments>"F:\_temp\rexx\source folders\2018-0213</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
+    <IsWindowsApplication>False</IsWindowsApplication>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -24,6 +25,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="pgu_config.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="PrepareGalleryUpload.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
