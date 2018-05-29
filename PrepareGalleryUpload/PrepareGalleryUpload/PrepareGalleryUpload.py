@@ -36,17 +36,19 @@ def prepare_one_entry(entry_path, ffmpeg_path, output_directory, video_settings,
 	if os.path.exists( output_directory ) == False:
 		os.makedirs( output_directory )
 
-	random_name_bit		= ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
+	random_name_bit				= ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
 	entry_name, entry_extension = os.path.splitext(os.path.basename( entry_path ))
-	output_file_name	= entry_name.replace( "-UHD", "-HQ" ) + "-" + random_name_bit
-	output_path_video   = os.path.join(output_directory, output_file_name + ".mp4")
-	output_path_thumb   = os.path.join(output_directory, output_file_name + ".jpg")
+	output_file_name			= entry_name.replace( "-UHD", "-HQ" ) + "-" + random_name_bit
+	output_path_video			= os.path.join(output_directory, output_file_name + ".mp4")
+	output_path_thumb			= os.path.join(output_directory, output_file_name + ".jpg")
+	input_video_settings		= None
+	input_thumbnail_settings	= None
 
 	#create a HQ web video file
 	encode_video = ffmpy.FFmpeg(
 		executable		= ffmpeg_path,
 		global_options	= "-y",
-		inputs			= {entry_path:			None},
+		inputs			= {entry_path:			input_video_settings},
 		outputs			= {output_path_video:	video_settings}
 		)
 	
@@ -59,7 +61,7 @@ def prepare_one_entry(entry_path, ffmpeg_path, output_directory, video_settings,
 	make_thumbnail = ffmpy.FFmpeg(
 		executable		= ffmpeg_path,
 		global_options	= "-y",
-		inputs			= {entry_path:			None},
+		inputs			= {entry_path:			input_thumbnail_settings},
 		outputs			= {output_path_thumb:	thumbnail_settings}
 		)
 	
