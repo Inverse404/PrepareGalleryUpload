@@ -67,9 +67,52 @@ def create_directory_if_non_existant( output_directory ):
 			raise Exception("directory could not be created")
 
 
-def prepare_output_directory( source_file_path, configuration ):
+def prepare_web_output_directory( source_file_path, configuration ):
 	output_base_directory		= configuration.options["web_files_base_directory"]
 	output_subdirectory			= parent_dir_base_name( source_file_path )
+	output_directory			= os.path.join( output_base_directory, output_subdirectory )
+	#ensure output directory is created if it does not yet exist
+	create_directory_if_non_existant( output_directory )
+	return output_directory
+
+
+def extract_creation_timestamp( source_file_path ):
+	year_prefix		= None
+	month_prefix	= None
+	day_prefix		= None
+
+	raw_file_name, extension	= os.path.splitext( os.path.basename( source_file_path ))
+	#try to detect year prefix
+	if len(raw_file_name) > 4 and raw_file_name[:4].isdigit():
+		potential_year_prefix_value = int(raw_file_name[:4])
+		if potential_year_prefix_value > 2000 and potential_year_prefix_value < 3000:
+			year_prefix = raw_file_name[:4]
+			#now see if there is also a fine grained month-day prefix part
+			if len(raw_file_name) > 9 and raw_file_name[5:9].isdigit():
+				potential_month_prefix_value	= int(raw_file_name[5:7])
+				potential_day_prefix_value		= int(raw_file_name[7:9])
+				if potential_month_prefix_value >= 1 and potential_month_prefix_value <= 12:
+					month_prefix = raw_file_name[5:7]
+				if potential_day_prefix_value >= 1 and potential_day_prefix_value <= 31:
+					day_prefix = raw_file_name[7:9]
+
+	creation_timestamp = ""
+	if year_prefix != None:
+		creation_timestamp += year_prefix
+		if month_prefix != None:
+			creation_timestamp += "-"
+			creation_timestamp += month_prefix
+			if day_prefix != None:
+				creation_timestamp += day_prefix
+
+	if len(creation_timestamp) == 0:
+		creation_timestamp = "_unknown_creation_time"
+	return creation_timestamp
+
+
+def prepare_archive_output_directory( source_file_path, configuration ):
+	output_base_directory		= configuration.options["archive_base_directory"]
+	output_subdirectory			= extract_creation_timestamp( source_file_path )
 	output_directory			= os.path.join( output_base_directory, output_subdirectory )
 	#ensure output directory is created if it does not yet exist
 	create_directory_if_non_existant( output_directory )
@@ -107,3 +150,13 @@ def call_ffmpeg( ffmpy_session ):
 		ffmpy_session.run()
 	except:
 		raise Exception( "an error occurred invoking ffmpeg" )
+
+
+def is_aec_project_token(source):
+	is_token_file = False
+
+	name, ext = os.path.splitext(source)
+	if ext.lower() == ".aec":
+		is_token_file = True
+
+	return is_token_file

@@ -10,13 +10,13 @@ class pgu_config(object):
 		"video_settings"			: "-c:a copy -c:v libx264 -profile:v high -preset slower -tune film -crf 20 -movflags +faststart",
 		"thumbnail_settings"		: "-frames:v 1 -s 640x360 -qscale:v 4",
 		"poster_settings"			: "-frames:v 1 -qscale:v 4",
-		"archive_base_direcory"		: ".\\archive",
+		"archive_base_directory"	: ".\\archive",
 		"web_files_base_directory"	: ".\\web",
 		"video_settings_uhd"		: "-c:a copy -c:v libx264 -profile:v high -preset slower -tune film -crf 16 -movflags +faststart",
 		"video_settings_hd"			: "-c:a copy -c:v libx264 -profile:v high -preset slow -tune film -crf 20 -movflags +faststart",
 		"video_settings_sd"			: "-c:a copy -c:v libx264 -profile:v high -preset slow -tune film -crf 22 -movflags +faststart",
 		"image_sequence_settings"	: "-framerate 30",
-		"deprecated_settings"		: { "output_base_directory"		: ".\\"}
+		"deprecated_settings"		: { "archive_base_direcory"		: ".\\archive", "output_base_directory"		: ".\\"}
 		}
 
 	def __init__(self, custom_config_path):

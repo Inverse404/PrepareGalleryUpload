@@ -12,7 +12,7 @@
     <Name>PrepareGalleryUpload</Name>
     <RootNamespace>PrepareGalleryUpload</RootNamespace>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>"F:\_temp\rexx\source folders\2018-0213</CommandLineArguments>
+    <CommandLineArguments>"F:\_temp\rexx\source folders\c4d\2018-0213KikiLiadrinQuickie01-30-ST.aec"</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
     <IsWindowsApplication>False</IsWindowsApplication>
   </PropertyGroup>

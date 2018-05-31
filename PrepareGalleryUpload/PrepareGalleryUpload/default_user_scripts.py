@@ -8,6 +8,20 @@ import pgu_util
 
 
 
+#create the master high quality archive video file from an image sequence
+def encode_master_video_from_image_sequence( input_path, output_path, configuration ):
+	input_sequence_settings	= configuration.options["image_sequence_settings"]
+
+	encode_video = ffmpy.FFmpeg(
+		executable		= configuration.options["ffmpeg_path"],
+		global_options	= "-y",
+		inputs			= {input_path:	input_sequence_settings},
+		outputs			= {output_path:	configuration.options["video_settings_uhd"]}
+		)
+
+	pgu_util.call_ffmpeg( encode_video )
+
+
 #create a HQ web video file
 def transcode_to_hq_webvideo( input_path, output_path, configuration ):
 	input_video_settings	= None
@@ -52,7 +66,7 @@ def create_poster( input_path, output_path, configuration ):
 
 #create a suitable set of files as needed for publishing on the web
 def generate_web_files( source_file_path, configuration ):
-	output_directory				= pgu_util.prepare_output_directory( source_file_path, configuration )
+	output_directory				= pgu_util.prepare_web_output_directory( source_file_path, configuration )
 	output_file_name, random_bit	= pgu_util.construct_output_web_file_name( source_file_path, output_directory )
 
 	output_path_video			= os.path.join(output_directory, output_file_name 					+ "-"	+ random_bit	+ ".mp4")
@@ -64,14 +78,38 @@ def generate_web_files( source_file_path, configuration ):
 	create_thumbnail( source_file_path, output_path_thumbnail, configuration )
 
 
+#create a new master video file in a suitable subdir in the master archive
+def generate_master_archive_file( token_file_path, configuration ):
+	output_directory					= pgu_util.prepare_archive_output_directory( token_file_path, configuration )
+	token_file_name, token_extension	= os.path.splitext( os.path.basename(token_file_path) )
+	input_directory						= os.path.dirname( token_file_path )
+
+	output_path_video			= os.path.join(output_directory,	token_file_name	+ "-UHD"	+ ".mp4")
+	input_path_sequence			= os.path.join(input_directory,		token_file_name	+ "%04d"	+ ".png")
+
+	encode_master_video_from_image_sequence( input_path_sequence, output_path_video, configuration )
+
+	return output_path_video
+
+
 
 #
 # these get called depending on which type of input was supplied
 #
 
-def on_input_image_sequence( source_dir, sequence_base_name ):
+def on_input_image_sequence( token_file_path, configuration_options ):
 	#generate master archive video
+	try:
+		new_master_archive_video_file_path = generate_master_archive_file( token_file_path, configuration_options )
+	except Exception as error_reason:
+		raise Exception("master archive file not successfully generated because ", error_reason.args )
+	
 	#generate web files
+	try:
+		generate_web_files( new_master_archive_video_file_path, configuration_options )
+	except Exception as error_reason:
+		raise Exception("web files not successfully generated because ", error_reason.args )
+	
 	#cleanup
 	pass
 

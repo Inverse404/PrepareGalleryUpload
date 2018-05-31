@@ -32,7 +32,10 @@ def main():
 		user_scripts.on_input_archive_directory( source, config )
 
 	elif os.path.isfile(source):
-		user_scripts.on_input_archive_video( source, config )
+		if pgu_util.is_aec_project_token(source):
+			user_scripts.on_input_image_sequence( source, config )
+		else:
+			user_scripts.on_input_archive_video( source, config )
 
 
 if __name__ == "__main__":
