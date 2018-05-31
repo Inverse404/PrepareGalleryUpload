@@ -25,7 +25,13 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="default_user_scripts.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="pgu_config.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="pgu_util.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="PrepareGalleryUpload.py" />
