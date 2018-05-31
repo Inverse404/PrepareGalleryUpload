@@ -6,16 +6,17 @@ class pgu_config(object):
 	"""description of class"""
 	default_config_path				= ".\\config.json"
 	default_values = {
-		"output_base_directory"		: ".\\",
 		"ffmpeg_path"				: ".\\ffmpeg.exe",
 		"video_settings"			: "-c:a copy -c:v libx264 -profile:v high -preset slower -tune film -crf 20 -movflags +faststart",
-		"thumbnail_settings"		: "-vframes 1 -qscale:v 4",
+		"thumbnail_settings"		: "-frames:v 1 -s 640x360 -qscale:v 4",
+		"poster_settings"			: "-frames:v 1 -qscale:v 4",
 		"archive_base_direcory"		: ".\\archive",
 		"web_files_base_directory"	: ".\\web",
 		"video_settings_uhd"		: "-c:a copy -c:v libx264 -profile:v high -preset slower -tune film -crf 16 -movflags +faststart",
 		"video_settings_hd"			: "-c:a copy -c:v libx264 -profile:v high -preset slow -tune film -crf 20 -movflags +faststart",
 		"video_settings_sd"			: "-c:a copy -c:v libx264 -profile:v high -preset slow -tune film -crf 22 -movflags +faststart",
 		"image_sequence_settings"	: "-framerate 30",
+		"deprecated_settings"		: { "output_base_directory"		: ".\\"}
 		}
 
 	def __init__(self, custom_config_path):
@@ -49,6 +50,11 @@ class pgu_config(object):
 			for option in pgu_config.default_values:
 				if not option in self.options:
 					self.options[option] = pgu_config.default_values[option]
+
+		#move aside any deprecated values so the user will be aware of it
+		for setting in self.options["deprecated_settings"]:
+			if setting in self.options:
+				self.options["deprecated_settings"][setting] = self.options.pop( setting, None )
 
 		#write back the established config
 		#this will either be new template default config or

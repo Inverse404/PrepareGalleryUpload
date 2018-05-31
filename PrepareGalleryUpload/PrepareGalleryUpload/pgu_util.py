@@ -1,4 +1,6 @@
 import os
+import random
+import string
 
 # some useful common use data
 
@@ -88,7 +90,7 @@ def construct_output_web_file_name( source_file_path, output_directory ):
 	except:
 		random_name_bit				= ''.join(random.choices(string.ascii_uppercase + string.digits, k = random_name_bit_length))
 
-	return source_raw_name + "-HQ" + "-" + random_name_bit
+	return source_raw_name + "-HQ", random_name_bit
 
 def check_if_ffmpeg_file_exists( ffmpeg_path ):
 	if os.path.isfile( ffmpeg_path ) == False:
