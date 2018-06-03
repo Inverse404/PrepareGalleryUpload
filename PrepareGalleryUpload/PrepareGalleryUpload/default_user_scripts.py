@@ -8,6 +8,20 @@ import pgu_util
 
 
 
+#create the lossless master archive video file from an image sequence
+def encode_lossless_video_from_image_sequence( input_path, output_path, configuration ):
+	input_sequence_settings	= configuration.options["image_sequence_settings"]
+
+	encode_video = ffmpy.FFmpeg(
+		executable		= configuration.options["ffmpeg_path"],
+		global_options	= "-y",
+		inputs			= {input_path:	input_sequence_settings},
+		outputs			= {output_path:	configuration.options["video_settings_lossless"]}
+		)
+
+	pgu_util.call_ffmpeg( encode_video )
+
+
 #create the master high quality archive video file from an image sequence
 def encode_master_video_from_image_sequence( input_path, output_path, configuration ):
 	input_sequence_settings	= configuration.options["image_sequence_settings"]
@@ -84,10 +98,15 @@ def generate_master_archive_file( token_file_path, configuration ):
 	token_file_name, token_extension	= os.path.splitext( os.path.basename(token_file_path) )
 	input_directory						= os.path.dirname( token_file_path )
 
-	output_path_video			= os.path.join(output_directory,	token_file_name	+ "-UHD"	+ ".mp4")
-	input_path_sequence			= os.path.join(input_directory,		token_file_name	+ "%04d"	+ ".png")
+	output_path_video			= os.path.join(output_directory,	token_file_name	+ "-UHD"		+ ".mp4")
+	output_path_lossless_video	= os.path.join(output_directory,	token_file_name	+ "-LOSSLESS"	+ ".mkv")
+	input_path_sequence			= os.path.join(input_directory,		token_file_name	+ "%04d"		+ ".png")
 
-	encode_master_video_from_image_sequence( input_path_sequence, output_path_video, configuration )
+	for requested_master_file_type in configuration.options["archive_master_file_types"]:
+		if requested_master_file_type == "LOSSLESS":
+			encode_lossless_video_from_image_sequence( input_path_sequence, output_path_lossless_video, configuration )
+		if requested_master_file_type == "UHD":
+			encode_master_video_from_image_sequence( input_path_sequence, output_path_video, configuration )
 
 	return output_path_video
 
