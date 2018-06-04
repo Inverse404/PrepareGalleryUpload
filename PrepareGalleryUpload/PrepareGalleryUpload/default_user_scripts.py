@@ -8,6 +8,41 @@ import pgu_util
 
 
 
+#create the big ugly GIF legacy compatibility file
+def create_gif_preview( input_path, output_path, configuration ):
+	gif_settings = {
+		"palette_gen"	: configuration.options["gif_color_palette_gen"],
+		"image_gen"		: configuration.options["gif_image_gen"]
+		}
+
+	for option in gif_settings:
+		gif_settings[option] = gif_settings[option].replace("GIF_HEIGHT", configuration.options["gif_height"])
+		gif_settings[option] = gif_settings[option].replace("GIF_WIDTH", configuration.options["gif_width"])
+
+	gif_palette_file_name	= "_gif_palette_temp.png"
+
+	create_gif_colour_palette = ffmpy.FFmpeg(
+		executable		= configuration.options["ffmpeg_path"],
+		global_options	= "-y",
+		inputs			= {input_path:				None},
+		outputs			= {gif_palette_file_name:	gif_settings["palette_gen"]}
+		)
+
+	pgu_util.call_ffmpeg( create_gif_colour_palette )
+
+	create_gif_image = ffmpy.FFmpeg(
+		executable		= configuration.options["ffmpeg_path"],
+		global_options	= "-y",
+		inputs			= {	input_path:				None,
+							gif_palette_file_name:	None},
+		outputs			= {output_path:				gif_settings["image_gen"]}
+		)
+
+	pgu_util.call_ffmpeg( create_gif_image )
+
+	os.remove( gif_palette_file_name )
+
+
 #create the lossless master archive video file from an image sequence
 def encode_lossless_video_from_image_sequence( input_path, output_path, configuration ):
 	input_sequence_settings	= configuration.options["image_sequence_settings"]
@@ -86,9 +121,11 @@ def generate_web_files( source_file_path, configuration ):
 	output_path_video			= os.path.join(output_directory, output_file_name 					+ "-"	+ random_bit	+ ".mp4")
 	output_path_poster			= os.path.join(output_directory, output_file_name					+ "-"	+ random_bit	+ ".jpg")
 	output_path_thumbnail		= os.path.join(output_directory, output_file_name + "-thumbnail"	+ "-"	+ random_bit	+ ".jpg")
+	output_path_gif				= os.path.join(output_directory, output_file_name					+ "-"	+ random_bit	+ ".gif")
 
 	transcode_to_hq_webvideo( source_file_path, output_path_video, configuration )
 	create_poster( source_file_path, output_path_poster, configuration )
+	create_gif_preview( source_file_path, output_path_gif, configuration )
 #	create_thumbnail( source_file_path, output_path_thumbnail, configuration )
 
 

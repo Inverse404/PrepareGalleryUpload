@@ -18,6 +18,10 @@ class pgu_config(object):
 		"video_settings_sd"			: "-c:a copy -c:v libx264 -profile:v high -preset slow -tune film -crf 22 -movflags +faststart",
 		"image_sequence_settings"	: "-framerate 30",
 		"archive_master_file_types"	: [ "LOSSLESS", "UHD" ],
+		"gif_color_palette_gen"		: "-vf \"scale=GIF_WIDTH:GIF_HEIGHT:flags=lanczos,palettegen\"",
+		"gif_image_gen"				: "-lavfi \"scale=GIF_WIDTH:GIF_HEIGHT:flags=lanczos [x]; [x][1:v] paletteuse\"",
+		"gif_width"					: "-1",
+		"gif_height"				: "281",
 		"deprecated_settings"		: { "archive_base_direcory"		: ".\\archive", "output_base_directory"		: ".\\"}
 		}
 
