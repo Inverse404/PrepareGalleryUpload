@@ -35,6 +35,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="PrepareGalleryUpload.py" />
+    <Compile Include="prepare_all_sub_folders_4_web.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="readme.txt" />
