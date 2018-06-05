@@ -115,13 +115,14 @@ def create_poster( input_path, output_path, configuration ):
 
 #create a suitable set of files as needed for publishing on the web
 def generate_web_files( source_file_path, configuration ):
-	output_directory				= pgu_util.prepare_web_output_directory( source_file_path, configuration )
-	output_file_name, random_bit	= pgu_util.construct_output_web_file_name( source_file_path, output_directory )
+	output_web_directory			= pgu_util.prepare_web_output_directory( source_file_path, configuration )
+	output_gifs_directory			= pgu_util.prepare_gifs_output_directory( source_file_path, configuration )
+	output_file_name, random_bit	= pgu_util.construct_output_web_file_name( source_file_path, output_gifs_directory )
 
-	output_path_video			= os.path.join(output_directory, output_file_name 					+ "-"	+ random_bit	+ ".mp4")
-	output_path_poster			= os.path.join(output_directory, output_file_name					+ "-"	+ random_bit	+ ".jpg")
-	output_path_thumbnail		= os.path.join(output_directory, output_file_name + "-thumbnail"	+ "-"	+ random_bit	+ ".jpg")
-	output_path_gif				= os.path.join(output_directory, output_file_name					+ "-"	+ random_bit	+ ".gif")
+	output_path_video			= os.path.join(output_web_directory, output_file_name 					+ "-"	+ random_bit	+ ".mp4")
+	output_path_poster			= os.path.join(output_web_directory, output_file_name					+ "-"	+ random_bit	+ ".jpg")
+	output_path_thumbnail		= os.path.join(output_web_directory, output_file_name + "-thumbnail"	+ "-"	+ random_bit	+ ".jpg")
+	output_path_gif				= os.path.join(output_gifs_directory, output_file_name					+ "-"	+ random_bit	+ ".gif")
 
 	transcode_to_hq_webvideo( source_file_path, output_path_video, configuration )
 	create_poster( source_file_path, output_path_poster, configuration )

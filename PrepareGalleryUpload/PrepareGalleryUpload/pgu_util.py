@@ -76,6 +76,15 @@ def prepare_web_output_directory( source_file_path, configuration ):
 	return output_directory
 
 
+def prepare_gifs_output_directory( source_file_path, configuration ):
+	output_base_directory		= configuration.options["gif_files_base_directory"]
+	output_subdirectory			= parent_dir_base_name( source_file_path )
+	output_directory			= os.path.join( output_base_directory, output_subdirectory )
+	#ensure output directory is created if it does not yet exist
+	create_directory_if_non_existant( output_directory )
+	return output_directory
+
+
 def extract_creation_timestamp( source_file_path ):
 	year_prefix		= None
 	month_prefix	= None

@@ -12,6 +12,7 @@ class pgu_config(object):
 		"poster_settings"			: "-frames:v 1 -qscale:v 4",
 		"archive_base_directory"	: ".\\archive",
 		"web_files_base_directory"	: ".\\web",
+		"gif_files_base_directory"	: ".\\gifs",
 		"video_settings_lossless"	: "-c:a copy -c:v ffv1 -level 3 -coder 1 -context 1",
 		"video_settings_uhd"		: "-c:a copy -c:v libx264 -profile:v high -preset slower -tune film -crf 16 -pix_fmt yuv420p -movflags +faststart",
 		"video_settings_hd"			: "-c:a copy -c:v libx264 -profile:v high -preset slow -tune film -crf 20 -movflags +faststart",
