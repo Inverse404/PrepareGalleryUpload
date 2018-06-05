@@ -1,4 +1,5 @@
 import os
+import argparse
 
 from pgu_config import pgu_config
 import default_user_scripts
@@ -15,4 +16,4 @@ source = command_line_arguments.source
 
 for dir_entry in os.scandir( source ):
 	if dir_entry.is_dir() == True:
-		default_user_scripts.user_scripts.on_input_archive_directory( dir_entry.path(), config )
+		default_user_scripts.on_input_archive_directory( dir_entry.path, config )
