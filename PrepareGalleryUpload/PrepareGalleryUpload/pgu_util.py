@@ -4,7 +4,7 @@ import string
 
 # some useful common use data
 
-common_video_file_extensions = [".mp4", ".avi", ".mpg", ".mpeg", ".wmv", ".webm", ".flv", ".mkv", ".mov", ".m4v"]
+common_video_file_extensions = [".mp4", ".avi", ".mpg", ".mpeg", ".wmv", ".webm", ".flv", ".mkv", ".mov", ".m4v", ".gif"]
 file_quality_suffixes = ["-HQ", "-LQ", "-UHD", "-HD", "-SD"]
 
 
@@ -169,3 +169,13 @@ def is_aec_project_token(source):
 		is_token_file = True
 
 	return is_token_file
+
+
+def is_crap_gif_input(source):
+	is_a_crappy_gif_file = False
+
+	name, extension = os.path.splitext( source )
+	if extension.lower() == ".gif":
+		is_a_crappy_gif_file = True
+
+	return is_a_crappy_gif_file

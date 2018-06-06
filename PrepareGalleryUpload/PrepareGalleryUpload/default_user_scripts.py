@@ -85,6 +85,20 @@ def transcode_to_hq_webvideo( input_path, output_path, configuration ):
 	pgu_util.call_ffmpeg( encode_video )
 
 
+#create a HQ web video file
+def recover_what_can_be_saved_from_gif_crap( input_path, output_path, configuration ):
+	input_video_settings	= None
+
+	encode_video = ffmpy.FFmpeg(
+		executable		= configuration.options["ffmpeg_path"],
+		global_options	= "-y",
+		inputs			= {input_path:	input_video_settings},
+		outputs			= {output_path:	configuration.options["video_from_gif_settings"]}
+		)
+
+	pgu_util.call_ffmpeg( encode_video )
+
+
 #create a video thumbnail image
 def create_thumbnail( input_path, output_path, configuration ):
 	input_thumbnail_settings	= None
@@ -124,7 +138,11 @@ def generate_web_files( source_file_path, configuration ):
 	output_path_thumbnail		= os.path.join(output_web_directory, output_file_name + "-thumbnail"	+ "-"	+ random_bit	+ ".jpg")
 	output_path_gif				= os.path.join(output_gifs_directory, output_file_name					+ "-"	+ random_bit	+ ".gif")
 
-	transcode_to_hq_webvideo( source_file_path, output_path_video, configuration )
+	if pgu_util.is_crap_gif_input( source_file_path ):
+		recover_what_can_be_saved_from_gif_crap( source_file_path, output_path_video, configuration )
+	else:
+		transcode_to_hq_webvideo( source_file_path, output_path_video, configuration )
+
 	create_poster( source_file_path, output_path_poster, configuration )
 	create_gif_preview( source_file_path, output_path_gif, configuration )
 #	create_thumbnail( source_file_path, output_path_thumbnail, configuration )

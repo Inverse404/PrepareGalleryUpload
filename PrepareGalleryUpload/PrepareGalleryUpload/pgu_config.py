@@ -17,6 +17,7 @@ class pgu_config(object):
 		"video_settings_uhd"		: "-c:a copy -c:v libx264 -profile:v high -preset slower -tune film -crf 16 -pix_fmt yuv420p -movflags +faststart",
 		"video_settings_hd"			: "-c:a copy -c:v libx264 -profile:v high -preset slow -tune film -crf 20 -movflags +faststart",
 		"video_settings_sd"			: "-c:a copy -c:v libx264 -profile:v high -preset slow -tune film -crf 22 -movflags +faststart",
+		"video_from_gif_settings"	: "-c:a copy -vf \"scale=trunc(iw/2)*2:trunc(ih/2)*2\" -c:v libx264 -profile:v high -preset slower -tune film -crf 20 -pix_fmt yuv420p -movflags +faststart",
 		"image_sequence_settings"	: "-framerate 30",
 		"archive_master_file_types"	: [ "LOSSLESS", "UHD" ],
 		"gif_color_palette_gen"		: "-vf \"scale=GIF_WIDTH:GIF_HEIGHT:flags=lanczos,palettegen\"",

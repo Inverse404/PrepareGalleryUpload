@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>482cb2ee-b37f-4530-9bdb-b15ceba6d1fd</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>prepare_all_sub_folders_4_web.py</StartupFile>
+    <StartupFile>PrepareGalleryUpload.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>F:\_temp\rexx\workdir</WorkingDirectory>
@@ -12,7 +12,7 @@
     <Name>PrepareGalleryUpload</Name>
     <RootNamespace>PrepareGalleryUpload</RootNamespace>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>"F:\_temp\rexx\source folders</CommandLineArguments>
+    <CommandLineArguments>"F:\_temp\rexx\source folders\gifshits"</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
     <IsWindowsApplication>False</IsWindowsApplication>
   </PropertyGroup>
