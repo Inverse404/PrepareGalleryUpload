@@ -6,25 +6,28 @@ class pgu_config(object):
 	"""description of class"""
 	default_config_path				= ".\\config.json"
 	default_values = {
-		"ffmpeg_path"				: ".\\ffmpeg.exe",
-		"video_settings"			: "-c:a copy -c:v libx264 -profile:v high -preset slower -tune film -crf 20 -movflags +faststart",
-		"thumbnail_settings"		: "-frames:v 1 -s 640x360 -qscale:v 4",
-		"poster_settings"			: "-frames:v 1 -qscale:v 4",
-		"archive_base_directory"	: ".\\archive",
-		"web_files_base_directory"	: ".\\web",
-		"gif_files_base_directory"	: ".\\gifs",
-		"video_settings_lossless"	: "-c:a copy -c:v ffv1 -level 3 -coder 1 -context 1",
-		"video_settings_uhd"		: "-c:a copy -c:v libx264 -profile:v high -preset slower -tune film -crf 16 -pix_fmt yuv420p -movflags +faststart",
-		"video_settings_hd"			: "-c:a copy -c:v libx264 -profile:v high -preset slow -tune film -crf 20 -movflags +faststart",
-		"video_settings_sd"			: "-c:a copy -c:v libx264 -profile:v high -preset slow -tune film -crf 22 -movflags +faststart",
-		"video_from_gif_settings"	: "-c:a copy -vf \"scale=trunc(iw/2)*2:trunc(ih/2)*2\" -c:v libx264 -profile:v high -preset slower -tune film -crf 20 -pix_fmt yuv420p -movflags +faststart",
-		"image_sequence_settings"	: "-framerate 30",
-		"archive_master_file_types"	: [ "LOSSLESS", "UHD" ],
-		"gif_color_palette_gen"		: "-vf \"scale=GIF_WIDTH:GIF_HEIGHT:flags=lanczos,palettegen\"",
-		"gif_image_gen"				: "-lavfi \"scale=GIF_WIDTH:GIF_HEIGHT:flags=lanczos [x]; [x][1:v] paletteuse\"",
-		"gif_width"					: "-1",
-		"gif_height"				: "281",
-		"deprecated_settings"		: { "archive_base_direcory"		: ".\\archive", "output_base_directory"		: ".\\"}
+		"ffmpeg_path"							: ".\\ffmpeg.exe",
+		"video_settings"						: "-c:a copy -c:v libx264 -profile:v high -preset slower -tune film -crf 20 -movflags +faststart",
+		"thumbnail_settings"					: "-frames:v 1 -s 640x360 -qscale:v 4",
+		"poster_settings"						: "-frames:v 1 -qscale:v 4",
+		"new_files_archive_base_directory"		: ".\\archive_new",
+		"new_files_web_files_base_directory"	: ".\\web_new",
+		"removed_web_files_base_directory"		: ".\\web_removed",
+		"archive_base_directory"				: ".\\archive",
+		"web_files_base_directory"				: ".\\web",
+		"gif_files_base_directory"				: ".\\gifs",
+		"video_settings_lossless"				: "-c:a copy -c:v ffv1 -level 3 -coder 1 -context 1",
+		"video_settings_uhd"					: "-c:a copy -c:v libx264 -profile:v high -preset slower -tune film -crf 16 -pix_fmt yuv420p -movflags +faststart",
+		"video_settings_hd"						: "-c:a copy -c:v libx264 -profile:v high -preset slow -tune film -crf 20 -movflags +faststart",
+		"video_settings_sd"						: "-c:a copy -c:v libx264 -profile:v high -preset slow -tune film -crf 22 -movflags +faststart",
+		"video_from_gif_settings"				: "-c:a copy -vf \"scale=trunc(iw/2)*2:trunc(ih/2)*2\" -c:v libx264 -profile:v high -preset slower -tune film -crf 20 -pix_fmt yuv420p -movflags +faststart",
+		"image_sequence_settings"				: "-framerate 30",
+		"archive_master_file_types"				: [ "LOSSLESS", "UHD" ],
+		"gif_color_palette_gen"					: "-vf \"scale=GIF_WIDTH:GIF_HEIGHT:flags=lanczos,palettegen\"",
+		"gif_image_gen"							: "-lavfi \"scale=GIF_WIDTH:GIF_HEIGHT:flags=lanczos [x]; [x][1:v] paletteuse\"",
+		"gif_width"								: "-1",
+		"gif_height"							: "281",
+		"deprecated_settings"					: { "archive_base_direcory"		: ".\\archive", "output_base_directory"		: ".\\"}
 		}
 
 	def __init__(self, custom_config_path):

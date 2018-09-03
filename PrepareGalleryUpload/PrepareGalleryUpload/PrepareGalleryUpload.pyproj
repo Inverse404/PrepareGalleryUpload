@@ -4,15 +4,15 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>482cb2ee-b37f-4530-9bdb-b15ceba6d1fd</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>PrepareGalleryUpload.py</StartupFile>
+    <StartupFile>UpdateWebFiles.py</StartupFile>
     <SearchPath>
     </SearchPath>
-    <WorkingDirectory>F:\_temp\rexx\workdir</WorkingDirectory>
+    <WorkingDirectory>F:\_temp\rexx - Kopie\workdir</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <Name>PrepareGalleryUpload</Name>
     <RootNamespace>PrepareGalleryUpload</RootNamespace>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>"F:\_temp\rexx\source folders\gifshits"</CommandLineArguments>
+    <CommandLineArguments>"F:\_temp\rexx - Kopie\source folders\c4d\patreon\2018-0213KikiLiadrinQuickie01-30-ST.aec"</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
     <IsWindowsApplication>False</IsWindowsApplication>
   </PropertyGroup>
@@ -36,6 +36,9 @@
     </Compile>
     <Compile Include="PrepareGalleryUpload.py" />
     <Compile Include="prepare_all_sub_folders_4_web.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UpdateWebFiles.py">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

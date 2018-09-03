@@ -27,6 +27,28 @@ def get_random_name_bits_from_existing_file( source_raw_name, search_directory, 
 		return random_name_bit
 
 
+def chop_off_random_name_bits( some_string ):
+	chop_off_amount = 0
+
+	if len(some_string) > 7:
+		if some_string[-7] == '-':
+			#could be a plausible random name bit, so mark it for chopping
+			chop_off_amount = 7;
+
+	return some_string[:len(some_string) - chop_off_amount]
+
+
+def get_random_name_bits( some_string ):
+	chop_off_amount = 0
+
+	if len(some_string) > 7:
+		if some_string[-7] == '-':
+			#could be a plausible random name bit, so mark it for chopping
+			chop_off_amount = 6;
+
+	return some_string[-chop_off_amount:]
+
+
 def chop_off_suffixes( some_string, suffix_list ):
 	chop_off_amount = 0
 
@@ -67,8 +89,12 @@ def create_directory_if_non_existant( output_directory ):
 			raise Exception("directory could not be created")
 
 
-def prepare_web_output_directory( source_file_path, configuration ):
-	output_base_directory		= configuration.options["web_files_base_directory"]
+def prepare_web_output_directory( source_file_path, configuration, new_files ):
+	if new_files == True:
+		output_base_directory	= configuration.options["new_files_web_files_base_directory"]
+	else:
+		output_base_directory		= configuration.options["web_files_base_directory"]
+
 	output_subdirectory			= parent_dir_base_name( source_file_path )
 	output_directory			= os.path.join( output_base_directory, output_subdirectory )
 	#ensure output directory is created if it does not yet exist
@@ -119,8 +145,12 @@ def extract_creation_timestamp( source_file_path ):
 	return creation_timestamp
 
 
-def prepare_archive_output_directory( source_file_path, configuration ):
-	output_base_directory		= configuration.options["archive_base_directory"]
+def prepare_archive_output_directory( source_file_path, configuration, new_files ):
+	if new_files == True:
+		output_base_directory	= configuration.options["new_files_archive_base_directory"]
+	else:
+		output_base_directory	= configuration.options["archive_base_directory"]
+
 	output_subdirectory			= extract_creation_timestamp( source_file_path )
 	output_directory			= os.path.join( output_base_directory, output_subdirectory )
 	#ensure output directory is created if it does not yet exist

@@ -128,10 +128,10 @@ def create_poster( input_path, output_path, configuration ):
 
 
 #create a suitable set of files as needed for publishing on the web
-def generate_web_files( source_file_path, configuration ):
-	output_web_directory			= pgu_util.prepare_web_output_directory( source_file_path, configuration )
+def generate_web_files( source_file_path, configuration, new_files ):
+	output_web_directory			= pgu_util.prepare_web_output_directory( source_file_path, configuration, new_files )
 	output_gifs_directory			= pgu_util.prepare_gifs_output_directory( source_file_path, configuration )
-	output_file_name, random_bit	= pgu_util.construct_output_web_file_name( source_file_path, output_gifs_directory )
+	output_file_name, random_bit	= pgu_util.construct_output_web_file_name( source_file_path, output_web_directory )
 
 	output_path_video			= os.path.join(output_web_directory, output_file_name 					+ "-"	+ random_bit	+ ".mp4")
 	output_path_poster			= os.path.join(output_web_directory, output_file_name					+ "-"	+ random_bit	+ ".jpg")
@@ -149,8 +149,8 @@ def generate_web_files( source_file_path, configuration ):
 
 
 #create a new master video file in a suitable subdir in the master archive
-def generate_master_archive_file( token_file_path, configuration ):
-	output_directory					= pgu_util.prepare_archive_output_directory( token_file_path, configuration )
+def generate_master_archive_file( token_file_path, configuration, new_files ):
+	output_directory					= pgu_util.prepare_archive_output_directory( token_file_path, configuration, new_files )
 	token_file_name, token_extension	= os.path.splitext( os.path.basename(token_file_path) )
 	input_directory						= os.path.dirname( token_file_path )
 
@@ -175,13 +175,13 @@ def generate_master_archive_file( token_file_path, configuration ):
 def on_input_image_sequence( token_file_path, configuration_options ):
 	#generate master archive video
 	try:
-		new_master_archive_video_file_path = generate_master_archive_file( token_file_path, configuration_options )
+		new_master_archive_video_file_path = generate_master_archive_file( token_file_path, configuration_options, True )
 	except Exception as error_reason:
 		raise Exception("master archive file not successfully generated because ", error_reason.args )
 	
 	#generate web files
 	try:
-		generate_web_files( new_master_archive_video_file_path, configuration_options )
+		generate_web_files( new_master_archive_video_file_path, configuration_options, True )
 	except Exception as error_reason:
 		raise Exception("web files not successfully generated because ", error_reason.args )
 	
@@ -191,7 +191,7 @@ def on_input_image_sequence( token_file_path, configuration_options ):
 
 def on_input_archive_video( source_video_file_path, configuration_options ):
 	try:
-		generate_web_files( source_video_file_path, configuration_options )
+		generate_web_files( source_video_file_path, configuration_options, True )
 	except Exception as error_reason:
 		raise Exception("web files not successfully generated because ", error_reason.args )
 		
