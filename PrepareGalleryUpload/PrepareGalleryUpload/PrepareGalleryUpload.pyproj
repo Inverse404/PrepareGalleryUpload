@@ -38,6 +38,9 @@
     <Compile Include="prepare_all_sub_folders_4_web.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="recreate_dummy_archive.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="UpdateWebFiles.py">
       <SubType>Code</SubType>
     </Compile>

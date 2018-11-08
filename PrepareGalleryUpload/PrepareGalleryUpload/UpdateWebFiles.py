@@ -76,17 +76,23 @@ def move_orphaned_web_files_to_removed_dir( files ):
 def pop_matching_web_file( archive_file_info, web_files_by_url, web_files_by_stripped_name ):
 	file_match = None
 
-	if archive_file_info.stripped_name in web_files_by_stripped_name:
-		if archive_file_info.relative_path in web_files_by_stripped_name[archive_file_info.stripped_name]:
-			#matching file at correct location found, prefer this one
-			file_match = web_files_by_stripped_name[archive_file_info.stripped_name][archive_file_info.relative_path]
-			del web_files_by_stripped_name[archive_file_info.stripped_name][archive_file_info.relative_path]
-		else:
-			#just pick the first one viable
-			subdir_key, file_match = web_files_by_stripped_name[archive_file_info.stripped_name].popitem()
+	try:
+		if archive_file_info.stripped_name in web_files_by_stripped_name:
+			if archive_file_info.relative_path in web_files_by_stripped_name[archive_file_info.stripped_name]:
+				#matching file at correct location found, prefer this one
+				file_match = web_files_by_stripped_name[archive_file_info.stripped_name][archive_file_info.relative_path]
+				del web_files_by_stripped_name[archive_file_info.stripped_name][archive_file_info.relative_path]
+			else:
+				#just pick the first one viable
+				subdir_key, file_match = web_files_by_stripped_name[archive_file_info.stripped_name].popitem()
+				if len(web_files_by_stripped_name[archive_file_info.stripped_name]) == 0:
+					del web_files_by_stripped_name[archive_file_info.stripped_name]
 
-		if file_match.path in web_files_by_url:
-			del web_files_by_url[file_match.path]
+			if file_match.path in web_files_by_url:
+				del web_files_by_url[file_match.path]
+	except:
+		print("Duplicate base file name in archive detected!")
+		file_match = None
 
 	return file_match
 
@@ -108,6 +114,16 @@ web_thumb_files_by_stripped_name						= index_files_by_stripped_name( web_thumb_
 new_web_vid_files_by_url, new_web_thumb_files_by_url	= scan_web_files_tree( new_web_files_base_directory )
 new_web_vid_files_by_stripped_name						= index_files_by_stripped_name( new_web_vid_files_by_url )
 new_web_thumb_files_by_stripped_name					= index_files_by_stripped_name( new_web_thumb_files_by_url )
+
+#detect possible duplicates
+with open("dupe_list.txt","w") as dupe_list:
+	for stripped_name_index in archive_files_by_stripped_name:
+		if len(archive_files_by_stripped_name[stripped_name_index]) > 1:
+			print("Potential duplicates detected!")
+			dupe_list.write( "Duplicate base name \"{0}\" found in these directories:\n----------\n".format( stripped_name_index ) )
+			for file_name in archive_files_by_stripped_name[stripped_name_index]:
+				dupe_list.writelines(file_name + '\n')
+
 
 
 for archive_file_url, archive_file_info in archive_files_by_url.items():
